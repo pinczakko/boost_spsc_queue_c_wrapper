@@ -28,6 +28,8 @@ void *producer(void *param)
 
 		inc_producer_count(s);
 	}
+
+	printf("Producer thread about to finish..\n");
 }
 
 void *consumer(void *param)
@@ -39,7 +41,7 @@ void *consumer(void *param)
 
 	printf("Consumer thread\n");
 
-	while (is_done(s) == 0) {
+	while (is_done(s) != 1) {
 		while (pop_item(s, &acc) != 0) {
 			inc_consumer_count(s);
 
@@ -49,6 +51,8 @@ void *consumer(void *param)
 			}
 		}
 	}
+
+	printf("Outside is_done() check\n");
 
 	while (pop_item(s, &acc) != 0) {
 		inc_consumer_count(s);
@@ -93,10 +97,11 @@ int main(int argc, char *argv[])
 		printf("Failed to run consumer thread!\n");
 	}
 
-	pthread_join(cons_t_id, &value);
+	pthread_join(prod_t_id, &value);
 	printf("produced %d objects\n", get_producer_count(s));
 	signal_done(s);
-	pthread_join(prod_t_id, &value);
+
+	pthread_join(cons_t_id, &value);
 	printf("consumed %d objects\n", get_consumer_count(s));
 
 	destroy_spsc_test(s);
