@@ -10,7 +10,7 @@ void *producer(void *param)
 
 	assert(param != NULL);
 
-	spsc_test *s = (spsc_test *) param;
+	spsc_interface *s = (spsc_interface *) param;
 
 	int iterations = get_iterations_count(s);
 
@@ -37,7 +37,7 @@ void *consumer(void *param)
 	struct account acc;
 	assert(param != NULL);
 
-	spsc_test *s = (spsc_test *) param;
+	spsc_interface *s = (spsc_interface *) param;
 
 	printf("Consumer thread\n");
 
@@ -45,7 +45,7 @@ void *consumer(void *param)
 		while (pop_item(s, &acc) != 0) {
 			inc_consumer_count(s);
 
-			if ((get_consumer_count(s) % 100000) == 0) {
+			if ((get_consumer_count(s) % 1000000) == 0) {
 				printf("Account Name: %s\n", acc.name);
 				printf("Account Balance: %s\n", acc.balance);
 			}
@@ -71,10 +71,10 @@ int main(int argc, char *argv[])
 	void *value;
 	int ret = -1;
 
-	spsc_test *s = create_spsc_test();
+	spsc_interface *s = create_spsc_interface();
 
 	if (s == NULL) {
-		printf("Failed to create spsc_test object\n");
+		printf("Failed to create spsc_interface object\n");
 		return 0;
 	}
 
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 	pthread_join(cons_t_id, &value);
 	printf("consumed %d objects\n", get_consumer_count(s));
 
-	destroy_spsc_test(s);
+	destroy_spsc_interface(s);
 
 	return 0;
 }

@@ -105,7 +105,7 @@ LTLIBRARIES = $(noinst_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 libspscwrapped_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-am_libspscwrapped_la_OBJECTS = spsc_test.lo spsc_wrapper.lo
+am_libspscwrapped_la_OBJECTS = spsc_interface.lo spsc_wrapper.lo
 libspscwrapped_la_OBJECTS = $(am_libspscwrapped_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -321,8 +321,8 @@ noinst_LTLIBRARIES = libspscwrapped.la
 AM_CPPFLAGS = $(BOOST_CPPFLAGS) 
 AM_CXXFLAGS = -std=c++11
 AM_LDFLAGS = $(BOOST_LDFLAGS)
-libspscwrapped_la_SOURCES = spsc_test.hpp \
-						spsc_test.cc \
+libspscwrapped_la_SOURCES = spsc_interface.hpp \
+						spsc_interface.cc \
 					    spsc_wrapper.h \
 						spsc_wrapper.cc	
 
@@ -385,7 +385,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spsc_test.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spsc_interface.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/spsc_wrapper.Plo@am__quote@
 
 .cc.o:

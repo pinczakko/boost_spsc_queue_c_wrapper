@@ -6,17 +6,17 @@
 
 #include <boost/atomic.hpp>
 
-#define QUEUE_ITEMS_COUNT	1024
+#define QUEUE_ITEMS_COUNT	8192
 
 #ifndef  SPSC_WRAPPER_H
 #include "spsc_wrapper.h"
 #endif //SPSC_WRAPPER_H 
 
-class spsc_test {
+class spsc_interface {
 public:
-    explicit spsc_test();
-    explicit spsc_test(const spsc_test &);
-    ~spsc_test() {};
+    explicit spsc_interface();
+    explicit spsc_interface(const spsc_interface &);
+    ~spsc_interface() {};
 
     bool push_item(const struct account * const acc);
     bool pop_item(struct account * acc);

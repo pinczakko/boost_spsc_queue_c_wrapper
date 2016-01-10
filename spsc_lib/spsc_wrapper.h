@@ -17,25 +17,25 @@ extern "C" {
 		 */
 	};
 
-	typedef struct spsc_test spsc_test;
+	typedef struct spsc_interface spsc_interface;
 
-	spsc_test *create_spsc_test();
-	void destroy_spsc_test(spsc_test * q);
+	spsc_interface *create_spsc_interface();
+	void destroy_spsc_interface(spsc_interface * q);
 
-	int push_item(spsc_test * const q, const struct account *const acc);
-	int pop_item(spsc_test * const q, struct account *acc);
+	int push_item(spsc_interface * const q, const struct account *const acc);
+	int pop_item(spsc_interface * const q, struct account *acc);
 
-	int is_lock_free(spsc_test * const q);
+	int is_lock_free(spsc_interface * const q);
 
-	void inc_producer_count(spsc_test *);
-	void inc_consumer_count(spsc_test *);
-	int get_consumer_count(spsc_test *);
-	int get_producer_count(spsc_test *);
+	void inc_producer_count(spsc_interface *);
+	void inc_consumer_count(spsc_interface *);
+	int get_consumer_count(spsc_interface *);
+	int get_producer_count(spsc_interface *);
 
-	void signal_done(spsc_test * const);
-	int is_done(spsc_test * const);
+	void signal_done(spsc_interface * const);
+	int is_done(spsc_interface * const);
 
-	const int get_iterations_count(spsc_test * const);
+	const int get_iterations_count(spsc_interface * const);
 
 #ifdef __cplusplus
 }

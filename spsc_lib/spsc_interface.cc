@@ -1,14 +1,14 @@
-#include "spsc_test.hpp"
+#include "spsc_interface.hpp"
 
-spsc_test::spsc_test():producer_count(0),
+spsc_interface::spsc_interface():producer_count(0),
     consumer_count(0),
     done(false),
-    iterations(1000000)
+    iterations(10000000)
 {
 
 }
 
-spsc_test::spsc_test(const spsc_test &orig):iterations(orig.iterations),
+spsc_interface::spsc_interface(const spsc_interface &orig):iterations(orig.iterations),
     producer_count(orig.producer_count),
     consumer_count(0),
     done(false)
@@ -16,7 +16,7 @@ spsc_test::spsc_test(const spsc_test &orig):iterations(orig.iterations),
     // TODO: Copy contents of spsc_queue here!!!
 }
 
-bool spsc_test::push_item(const struct account * const acc)
+bool spsc_interface::push_item(const struct account * const acc)
 {
     struct account tmp_acc;
 
@@ -28,7 +28,7 @@ bool spsc_test::push_item(const struct account * const acc)
 }
 
 
-bool spsc_test::pop_item(struct account * acc)
+bool spsc_interface::pop_item(struct account * acc)
 {
     struct account tmp_acc;
     bool retval = false;
