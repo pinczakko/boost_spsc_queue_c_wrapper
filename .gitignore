@@ -1,0 +1,13 @@
+_build/
+_debug/
+_release/
+autom4te.cache/
+*~
+*.swp
+*.tmp
+*.patch
+html/
+tags
+*.scan
+*.log
+*.orig
