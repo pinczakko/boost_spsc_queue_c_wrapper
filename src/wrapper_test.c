@@ -39,6 +39,17 @@ void *consumer(void *param)
 
 	printf("Consumer thread\n");
 
+	while (is_done(s) == 0) {
+		while (pop_item(s, &acc) != 0) {
+			inc_consumer_count(s);
+
+			if ((get_consumer_count(s) % 100000) == 0) {
+				printf("Account Name: %s\n", acc.name);
+				printf("Account Balance: %s\n", acc.balance);
+			}
+		}
+	}
+
 	while (pop_item(s, &acc) != 0) {
 		inc_consumer_count(s);
 
@@ -84,7 +95,7 @@ int main(int argc, char *argv[])
 
 	pthread_join(cons_t_id, &value);
 	printf("produced %d objects\n", get_producer_count(s));
-	//s.signal_done();
+	signal_done(s);
 	pthread_join(prod_t_id, &value);
 	printf("consumed %d objects\n", get_consumer_count(s));
 

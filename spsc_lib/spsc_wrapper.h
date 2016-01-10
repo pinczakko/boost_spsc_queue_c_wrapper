@@ -32,6 +32,9 @@ extern "C" {
 	int get_consumer_count(spsc_test *);
 	int get_producer_count(spsc_test *);
 
+	void signal_done(spsc_test * const);
+	int is_done(spsc_test * const);
+
 	const int get_iterations_count(spsc_test * const);
 
 #ifdef __cplusplus

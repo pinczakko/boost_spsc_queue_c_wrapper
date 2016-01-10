@@ -55,6 +55,16 @@ const int get_iterations_count(spsc_test * const q)
     return q->get_iterations_count();
 }
 
+void signal_done(spsc_test * const q)
+{
+    q->signal_done();
+}
+
+int is_done(spsc_test * const q)
+{
+    return q->is_done();
+}
+
 #ifdef __cplusplus
 }
 #endif
