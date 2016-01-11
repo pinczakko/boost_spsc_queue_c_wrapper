@@ -138,6 +138,9 @@ int main(int argc, char *argv[])
 	pthread_join(cons_t_id, &value);
 	printf("consumed %d objects\n", get_consumer_count(s));
 
+	pthread_attr_destroy(&t_attr);
+	pthread_mutex_destroy(&g_mutex);
+
 	destroy_spsc_interface(s);
 
 	return 0;
