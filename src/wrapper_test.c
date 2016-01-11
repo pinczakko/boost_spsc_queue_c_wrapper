@@ -4,7 +4,36 @@
 #include <pthread.h>
 #include <assert.h>
 
-void *producer(void *param)
+typedef enum _termination_state_t{
+	TS_RUN,
+	TS_TERMINATE
+} termination_state_t; 
+
+/** Mutex-protected variable */
+static termination_state_t g_terminate = TS_RUN; 
+static pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+static termination_state_t get_termination_state() 
+{ 
+	termination_state_t retval = 0; 
+
+	pthread_mutex_lock(&g_mutex); 
+	retval = g_terminate;
+	pthread_mutex_unlock(&g_mutex); 
+
+	return retval;
+}
+
+static void set_termination_state(termination_state_t new_state) 
+{ 
+	termination_state_t retval = 0; 
+
+	pthread_mutex_lock(&g_mutex); 
+	g_terminate = new_state;
+	pthread_mutex_unlock(&g_mutex); 
+}
+
+static void *producer(void *param)
 {
 	struct account acc;
 
@@ -34,7 +63,7 @@ void *producer(void *param)
 	printf("Producer thread about to finish..\n");
 }
 
-void *consumer(void *param)
+static void *consumer(void *param)
 {
 	struct account acc;
 	assert(param != NULL);
@@ -45,7 +74,7 @@ void *consumer(void *param)
 
 	printf("Consumer thread\n");
 
-	while (is_done(s) != 1) {
+	while (get_termination_state() == TS_RUN) {
 		while (pop_item(s, &acc) != 0) {
 			inc_consumer_count(s);
 
@@ -56,7 +85,7 @@ void *consumer(void *param)
 		}
 	}
 
-	printf("Outside is_done() check\n");
+	printf("Outside get_termination_state() loop\n");
 
 	while (pop_item(s, &acc) != 0) {
 		inc_consumer_count(s);
@@ -74,6 +103,7 @@ int main(int argc, char *argv[])
 	pthread_attr_t t_attr;
 	void *value;
 	int ret = -1;
+
 
 	spsc_interface *s = create_spsc_interface();
 
@@ -103,7 +133,7 @@ int main(int argc, char *argv[])
 
 	pthread_join(prod_t_id, &value);
 	printf("produced %d objects\n", get_producer_count(s));
-	signal_done(s);
+	set_termination_state(TS_TERMINATE);
 
 	pthread_join(cons_t_id, &value);
 	printf("consumed %d objects\n", get_consumer_count(s));
@@ -112,3 +142,4 @@ int main(int argc, char *argv[])
 
 	return 0;
 }
+
