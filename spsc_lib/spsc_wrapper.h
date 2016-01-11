@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+#define QUEUE_ITEMS_COUNT	8192
+
 	struct account {
 		char name[20];
 		char balance[14];
@@ -22,7 +24,8 @@ extern "C" {
 	spsc_interface *create_spsc_interface();
 	void destroy_spsc_interface(spsc_interface * q);
 
-	int push_item(spsc_interface * const q, const struct account *const acc);
+	int push_item(spsc_interface * const q,
+		      const struct account *const acc);
 	int pop_item(spsc_interface * const q, struct account *acc);
 
 	int is_lock_free(spsc_interface * const q);
@@ -36,6 +39,14 @@ extern "C" {
 	int is_done(spsc_interface * const);
 
 	const int get_iterations_count(spsc_interface * const);
+
+#ifdef NDEBUG
+	void use_as_producer(spsc_interface * const s) __attribute__((unused));
+	void use_as_consumer(spsc_interface * const s) __attribute__((unused));
+#else
+	void use_as_producer(spsc_interface * const s);
+	void use_as_consumer(spsc_interface * const s);
+#endif //NDEBUG
 
 #ifdef __cplusplus
 }

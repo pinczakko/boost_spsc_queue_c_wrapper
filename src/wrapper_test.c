@@ -12,6 +12,8 @@ void *producer(void *param)
 
 	spsc_interface *s = (spsc_interface *) param;
 
+	use_as_producer(s);
+
 	int iterations = get_iterations_count(s);
 
 	printf("Producer thread\n");
@@ -38,6 +40,8 @@ void *consumer(void *param)
 	assert(param != NULL);
 
 	spsc_interface *s = (spsc_interface *) param;
+
+	use_as_consumer(s);
 
 	printf("Consumer thread\n");
 

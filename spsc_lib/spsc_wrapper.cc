@@ -65,6 +65,21 @@ int is_done(spsc_interface * const q)
     return q->is_done();
 }
 
+#ifdef NDEBUG
+void use_as_consumer(spsc_interface * const q) {}
+void use_as_producer(spsc_interface * const q) {}
+#else
+void use_as_consumer(spsc_interface * const q)
+{
+    q->inc_connected_consumer();
+}
+
+void use_as_producer(spsc_interface * const q)
+{
+    q->inc_connected_producer();
+}
+#endif //NDEBUG
+
 #ifdef __cplusplus
 }
 #endif

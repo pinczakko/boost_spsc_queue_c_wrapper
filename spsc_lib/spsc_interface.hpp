@@ -1,12 +1,10 @@
-#ifndef SPSC_TEST_HPP
-#define SPSC_TEST_HPP
+#ifndef SPSC_INTERFACE_HPP
+#define SPSC_INTERFACE_HPP
 
 #include <boost/thread/thread.hpp>
 #include <boost/lockfree/spsc_queue.hpp>
 
 #include <boost/atomic.hpp>
-
-#define QUEUE_ITEMS_COUNT	8192
 
 #ifndef  SPSC_WRAPPER_H
 #include "spsc_wrapper.h"
@@ -55,6 +53,14 @@ public:
         return spsc_queue.is_lock_free();
     }
 
+#ifdef NDEBUG
+    static inline void inc_connected_producer(){}
+    static inline void inc_connected_consumer(){}
+#else
+    inline void inc_connected_producer(){ connected_producer++; }
+    inline void inc_connected_consumer(){ connected_consumer++; }
+#endif // NDEBUG
+
 private:
     int producer_count;
     boost::atomic_int consumer_count;
@@ -64,6 +70,12 @@ private:
 
     const int iterations;
     boost::atomic<bool> done;
+
+#ifndef NDEBUG
+    boost::atomic_int connected_producer;
+    boost::atomic_int connected_consumer;
+#endif // NDEBUG
+
 };
 
-#endif //SPSC_TEST_HPP
+#endif //SPSC_INTERFACE_HPP

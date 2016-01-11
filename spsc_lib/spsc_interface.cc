@@ -5,7 +5,10 @@ spsc_interface::spsc_interface():producer_count(0),
     done(false),
     iterations(10000000)
 {
-
+#ifndef NDEBUG
+    connected_producer = 0;
+    connected_consumer = 0;
+#endif // NDEBUG
 }
 
 spsc_interface::spsc_interface(const spsc_interface &orig):iterations(orig.iterations),
