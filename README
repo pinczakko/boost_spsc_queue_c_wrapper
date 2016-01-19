@@ -2,3 +2,5 @@ This code shows how to use Boost C++ library from C via wrapper class and struct
 See spsc_lib and src directories for details, particularly:
 - The libspscwrapped.la target.
 - The wrapper_test target
+
+For more information, see: http://darmawan-salihun.blogspot.co.id/2016/01/using-boost-c-library-from-c.html 
